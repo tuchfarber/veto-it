@@ -30,6 +30,9 @@ body>div{
 #distance{
     margin-left:10px;
     margin-top:5px;
+    height:20px;
+    border:1px;
+    padding:0px;
 }
 #location_selectors > button, #location_selectors > input{
     float:left;
