@@ -2,84 +2,103 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    font-family: sans-serif;
+    color: #4c4c4c;
 }
+
 body>div{
     float:left;
     height:100%;
 }
-#location_selectors{
-    background-color:#777;
-    height:80px;
-}
-#locations{
-    height: calc(100% - 80px);
-    background-color:#ddd;
-    overflow:auto;
-}
-#address{
-    height:40px;
-    border:0px;
-    padding: 0px 0px 0px 20px;
-    margin-left:10px;
-}
-#location_selectors > button{
-    height:40px;
-    width:80px;
-    margin-left:5px;
-}
-#distance{
-    margin-left:10px;
-    margin-top:5px;
-    height:20px;
-    border:1px;
-    padding:0px;
-}
-#location_selectors > button, #location_selectors > input{
-    float:left;
-    margin-top:10px;
-}
-.tile{
-    height:60px;
-    border: 1px solid black;
-}
-.tile>*{
-    float:left;
-    height:100%;
-}
-.tile>div{
-    height:100%;
-    width: calc(100% - 90px);
-    margin-left:10px
-}
-.tile>button{
- height:100%;
- width:80px;
-}
-.name{
-    font-weight:bold;
-    margin-top:10px;
-}
 @media (max-width: 950px) {
-    #left_nav{
+    .left-nav{
         width:100%;
     }
     #map{
         display:none;
     }
-    #address{
-        width: calc(100% - 150px);
-    }
-
 }
 @media (min-width: 951px){
-    #left_nav{
-        width:350px;
+    .left-nav{
+        width:30%;
     }
     #map{
         display:inline-block;
-        width: calc(100% - 350px);
-    }
-    #address{
-        width:220px;
+        width: 70%;
     }
 }
+
+.address-input-wrap{
+    background-color: #2979ff;
+    padding: 8px 0;
+    text-align: center;
+}
+    .address-input-wrap > *{
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        height: 40px;
+        box-sizing: border-box;
+        width: 20%
+    }
+
+    .address-input-wrap > input[type="text"]{
+        width: 50% 
+    }
+
+.location-list{
+    overflow-y:auto;
+}
+
+.restaurant-tile{
+    display: inline-block;
+    padding: 10px 0;
+    border-bottom: 1px solid lightgray;
+    width: 100%;
+}
+    .restaurant-tile > div{
+        padding: 0 5%;
+    }
+
+.restaurant-info{
+    float: left;
+    display: inline-block;
+    width: 70%;
+}
+
+.name{
+    font-size: medium;
+    font-weight:bold;
+}
+
+.rating{
+    font-size: small;
+    color: #666666;
+}
+
+.open{
+    font-size: smaller;
+    font-style: italic;
+}
+
+.veto-button{
+    float: left;
+    display: inline-block;
+    width: 30%;
+}
+
+    .veto-button button{
+        background-color: #ff4429;
+        color: white;
+        font-weight: bold;
+        border-radius: 2px;
+        border: none;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        font-size: large;
+        padding: 10px;
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    }
+    
+    .veto-button button:hover{
+        background-color: #e53d24;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        cursor: pointer;
+    }
