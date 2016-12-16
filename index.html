@@ -22,56 +22,18 @@
                 </select>
             </div>
             <div class="location-list" id="locations">
-                <div class="restaurant-tile">
+                <div class="restaurant-tile" v-for="place in places">
                     <div>
                         <div class="restaurant-info">
-                            <span class="name">Applebees</span>
-                            <span class="open">Open Now!</span>
+                            <span class="name">{{place.Place.name}}</span>
+                            <span class="open" v-if="place.Place.opening_hours">Open Now!</span>
                             <br>
-                            <span class="rating">Rating: 5</span>
+                            <span class="rating">Rating: {{place.Place.rating}}</span>
                         </div>
                         <div class="veto-button">
-                            <button>Veto!</button>
+                            <button v-bind:onclick="'removeMarker(\'' + place.Place.id + '\')'">Veto!</button>
                         </div>
                     </div>
-                </div>
-                <div class="restaurant-tile">
-                    <div>
-                        <div class="restaurant-info">
-                            <span class="name">Applebees</span>
-                            <span class="open">Open Now!</span>
-                            <br>
-                            <span class="rating">Rating: 5</span>
-                        </div>
-                        <div class="veto-button">
-                            <button>Veto!</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="restaurant-tile">
-                    <div>
-                        <div class="restaurant-info">
-                            <span class="name">Applebees</span>
-                            <span class="open">Open Now!</span>
-                            <br>
-                            <span class="rating">Rating: 5</span>
-                        </div>
-                        <div class="veto-button">
-                            <button>Veto!</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="tile" v-for="place in places">
-                    <div>
-                        <span class="name">{{place.Place.name}}</span>
-                        <span v-if="place.Place.opening_hours">
-                            <span class="open" v-if="place.Place.opening_hours.open_now">(Open Now!)</span>
-                        </span>                   
-                        <br>
-                        <span class="rating">Rating: {{place.Place.rating}}</span><br>
-
-                    </div>
-                    <button v-bind:onclick="'removeMarker(\'' + place.Place.id + '\')'">Veto!</button>
                 </div>
             </div>
         </div>
