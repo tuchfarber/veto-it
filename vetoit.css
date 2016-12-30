@@ -86,6 +86,7 @@ body>div{
 }
 
     .veto-button button{
+        float: right;
         background-color: #ff4429;
         color: white;
         font-weight: bold;
