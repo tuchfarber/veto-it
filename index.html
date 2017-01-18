@@ -5,8 +5,8 @@
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
         <link rel="stylesheet" href="vetoit.css">
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnYOOawvOCQTBXyzow1M8fdgekFAS-9aA&libraries=places"></script>
-        <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1rBIE6DHoTmVy2OJp4WRHCZth3xB68kI&libraries=places"></script>
+        <script src="https://unpkg.com/vue/dist/vue.js"></script>
         <script src="vetoit.js"></script>
     </head>
     <body>
@@ -26,9 +26,7 @@
                     <div>
                         <div class="restaurant-info">
                             <span class="name">{{place.Place.name}}</span>
-                            <span v-if="place.Place.opening_hours">
-                                <span class="open" v-if="place.Place.opening_hours.open_now">(Open Now!)</span>
-                            </span>       
+                            <span class="open" v-if="place.Place.opening_hours">Open Now!</span>
                             <br>
                             <span class="rating">Rating: {{place.Place.rating}}</span>
                         </div>
