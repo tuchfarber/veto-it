@@ -43,10 +43,9 @@ function findPlacesSuccessHandler(results, status) {
             })
         })
     }
-    console.log(locations.places)
 }
 function searchLocation(){
-    var address = document.getElementById("address").value;
+    var address = document.getElementById("txtAddress").value;
     geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == 'OK') {
@@ -64,7 +63,6 @@ function createMarker(place) {
     });
 }
 function removeMarker(id){
-    console.log(locations.places);
     locations.places.forEach(function(current_element, current_index){
         if(current_element.Place.id == id){
             current_element.Marker.setMap(null);
@@ -78,8 +76,7 @@ function useGeolocation(position){
 }
 
 function changeRadius(){
-    radius = parseInt(document.getElementById("distance").value);
-    console.log(radius)
+    radius = parseInt(document.getElementById("ddlDistance").value);
     changeLocation(loc.lat,loc.lng)
 }
 
