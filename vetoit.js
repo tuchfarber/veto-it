@@ -80,6 +80,20 @@ function changeRadius(){
     changeLocation(loc.lat,loc.lng)
 }
 
+function locationErrorHandler(error){
+    switch(error.code){
+        case 1:
+            alert("Not permitted to access location data");
+            break;
+        case 2:
+            alert("Unable to determine location");
+            break;
+        case 3:
+            alert("Location data timeout");
+            break;
+    }
+}
+
 window.onload = function(){
     //initMap(39.1462596,-84.4423238)
     locations = new Vue({
@@ -89,5 +103,5 @@ window.onload = function(){
         }
     })
     drawMap()
-    navigator.geolocation.getCurrentPosition(useGeolocation, function(error){console.log(error)})
+    navigator.geolocation.getCurrentPosition(useGeolocation, locationErrorHandler)
 }
