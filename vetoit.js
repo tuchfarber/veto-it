@@ -33,15 +33,17 @@ function removeAllMarkers(){
     })
 }
 
-function findPlacesSuccessHandler(results, status) {
+function findPlacesSuccessHandler(results, status, pagination){
     if (status === google.maps.places.PlacesServiceStatus.OK) {
-        locations.places=[];
         results.forEach(function(current_element){
             locations.places.push({
                 "Marker": createMarker(current_element),
                 "Place": current_element
             })
         })
+    }
+    if(pagination.hasNextPage){
+        pagination.nextPage();
     }
 }
 function searchLocation(){
