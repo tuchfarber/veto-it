@@ -16,7 +16,7 @@
                 <select id="ddlDistance" v-model="selected" v-on:change="changeRadius">
                     <option v-for="option in options" :value="option.value">{{option.text}}</option>
                 </select>
-                <button id="btnStartSharedSession" v-on:click="startSharedSession">Share</button>
+                <img src="images/share.png" id="imgShareSession" v-on:click="shareSession" title="Share Session">
             </div>
             <div class="location-list" id="locations">
                 <div class="restaurant-tile" v-for="place in places">

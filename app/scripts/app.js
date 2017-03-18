@@ -84,6 +84,10 @@ window.onload = function(){
                         pagination.nextPage();
                     }
                 });
+            },
+            initializeMap: function(zoom){
+                zoom = typeof zoom === 'undefined' ? 15 : zoom;
+                map.gmap = new google.maps.Map(document.getElementById('map'), { center: map.location, zoom: zoom })
             }
         }
     });
@@ -107,18 +111,45 @@ window.onload = function(){
         }
     });
 
-    btnStartSharedSession = new Vue({
-        el: '#btnStartSharedSession',
+    shareButton = new Vue({
+        el: "#imgShareSession",
         methods: {
-            startSharedSession: function(){
-                console.log("start session");
+            shareSession: function(){
+                if(sharedSession.sharedSession){
+                    alert("Shared URL: " + window.location);
+                    return;
+                }
+                var session_data = {
+                    "gps": map.gmap.center.lat() + ',' + map.gmap.center.lng(),
+                    "init_km": selectedDistance.selected,
+                    "del_ids": locations.locallyDeletedLocations
+                };
+                this.$http.post('https://api.tuchfarber.com/vetoit/create', session_data).then(
+                    function(response){
+                        var share_url = window.location + '#' + response.data.d_id;
+                        window.location.hash = response.data.d_id;
+                        alert(share_url);
+                    },
+                    function(reponse){
+                        console.log("Error");
+                        console.log(response);
+                    }
+                );
             }
         }
     });
 
-    // Initialize map
-    map.gmap = new google.maps.Map(document.getElementById('map'), { center: map.location, zoom: 15 })
+    sharedSession = new Vue({
+        data: {
+            sharedSession: window.location.hash.substring(1) !== "" ? true : false,
+            sessionId: window.location.hash.substring(1),
+            deletedIds: [],
+            gpsLocation: {lat: 0, lng: 0},
+            km: 1000
+        }
+    });
 
+    map.initializeMap();
     navigator.geolocation.getCurrentPosition(
         function(position){
             //Success
