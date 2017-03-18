@@ -14,22 +14,22 @@
     </head>
     <body>
         <div class="left-nav">
-            <div class="address-input-wrap">
+            <div class="address-input-wrap" id="divSessionInput">
                 <input id="txtAddress" type="text" placeholder="Address">
                 <button onclick="searchLocation()">Go!</button>
-                <select id="ddlDistance" onchange="changeRadius()">
-                    <option value="1000">1 km</option>
-                    <option value="2000">2 km</option>
-                    <option value="5000">5 km</option>
-                    <option value="10000">10 km</option>
+                <select id="ddlDistance" v-model="selected" v-on:change="changeRadius">
+                    <option v-for="option in options" :value="option.value">{{option.text}}</option>
                 </select>
+                <button onclick="startSharedSession()">Share Session</button>
             </div>
             <div class="location-list" id="locations">
                 <div class="restaurant-tile" v-for="place in places">
                     <div>
                         <div class="restaurant-info">
                             <span class="name">{{place.Place.name}}</span>
-                            <span class="open" v-if="place.Place.opening_hours">Open Now!</span>
+                            <span v-if="place.Place.opening_hours">
+                                <span class="open" v-if="place.Place.opening_hours.open_now">(Open Now!)</span>
+                           </span>
                             <br>
                             <span class="rating">Rating: {{place.Place.rating}}</span>
                         </div>
@@ -45,6 +45,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1rBIE6DHoTmVy2OJp4WRHCZth3xB68kI&libraries=places"></script>
     <!-- build:js scripts/app.js -->
     <script type="text/javascript" src="../bower_components/vue/dist/vue.min.js"></script>
+    <script type="text/javascript" src="../bower_components/vue-resource/dist/vue-resource.min.js"></script>
 
     <script type="text/javascript" src="scripts/app.js"></script>
     <!-- endbuild -->
