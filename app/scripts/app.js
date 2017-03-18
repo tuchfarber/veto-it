@@ -1,48 +1,27 @@
-function findPlacesSuccessHandler(results, status, pagination){
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-        results.forEach(function(current_element){
-            locations.places.push({
-                "Marker": createMarker(current_element),
-                "Place": current_element
-            })
-        })
-    }
-    if(pagination.hasNextPage){
-        pagination.nextPage();
-    }
-}
-
-function createMarker(place) {
-    return new google.maps.Marker({
-        map: map.gmap,
-        position: place.geometry.location
-    });
-}
-
-function removeMarker(id){
-    locations.places.forEach(function(current_element, current_index){
-        if(current_element.Place.id == id){
-            current_element.Marker.setMap(null);
-            locations.places.splice(current_index,1);
-            return;
-        }
-    })
-}
-
-function startSharedSession(){
-    console.log("start session");
-    // this.$http.post('/api', sessionData).then(response => {
-    //     // Success
-    // }, response => {
-    //     // Error
-    // });
-}
-
 window.onload = function(){
     locations = new Vue({
         el: '#locations',
         data: {
-            places: []
+            places: [],
+            locallyDeletedLocations: []
+        },
+        methods:{
+            createMarker: function(place){
+                return new google.maps.Marker({
+                    map: map.gmap,
+                    position: place.geometry.location
+                });
+            },
+            removeMarker: function(id){
+                locations.places.forEach(function(current_element, current_index){
+                    if(current_element.Place.id == id){
+                        current_element.Marker.setMap(null);
+                        locations.places.splice(current_index,1);
+                        return;
+                    }
+                });
+                locations.locallyDeletedLocations.push(id);
+            }
         }
     });
 
@@ -92,7 +71,19 @@ window.onload = function(){
                     location: this.location,
                     radius: selectedDistance.selected,
                     type: ['restaurant']
-                }, findPlacesSuccessHandler);
+                }, function(results, status, pagination){
+                    if (status === google.maps.places.PlacesServiceStatus.OK) {
+                        results.forEach(function(current_element){
+                            locations.places.push({
+                                "Marker": locations.createMarker(current_element),
+                                "Place": current_element
+                            })
+                        })
+                    }
+                    if(pagination.hasNextPage){
+                        pagination.nextPage();
+                    }
+                });
             }
         }
     });
@@ -112,6 +103,15 @@ window.onload = function(){
                         alert('Unable to determine location. ' + status);
                     }
                 });
+            }
+        }
+    });
+
+    btnStartSharedSession = new Vue({
+        el: '#btnStartSharedSession',
+        methods: {
+            startSharedSession: function(){
+                console.log("start session");
             }
         }
     });

@@ -16,11 +16,10 @@
         <div class="left-nav">
             <div class="address-input-wrap" id="divSessionInput">
                 <input v-model="newLocation" id="txtNewLocation" type="text" placeholder="New Location..." v-on:keyup.enter="searchLocation(newLocation)">
-                <!-- <button onclick="searchLocation()">Go!</button> -->
                 <select id="ddlDistance" v-model="selected" v-on:change="changeRadius">
                     <option v-for="option in options" :value="option.value">{{option.text}}</option>
                 </select>
-                <button onclick="startSharedSession()">Share Session</button>
+                <button id="btnStartSharedSession" v-on:click="startSharedSession">Share</button>
             </div>
             <div class="location-list" id="locations">
                 <div class="restaurant-tile" v-for="place in places">
@@ -34,7 +33,7 @@
                             <span class="rating">Rating: {{place.Place.rating}}</span>
                         </div>
                         <div class="veto-button">
-                            <button v-bind:onclick="'removeMarker(\'' + place.Place.id + '\')'">Veto!</button>
+                            <button id="btnDeleteLocation" v-on:click="removeMarker(place.Place.id)">Veto!</button>
                         </div>
                     </div>
                 </div>
@@ -42,7 +41,7 @@
         </div>
         <div id="map"></div>
     </body>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1rBIE6DHoTmVy2OJp4WRHCZth3xB68kI&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnYOOawvOCQTBXyzow1M8fdgekFAS-9aA&libraries=places"></script>
     <!-- build:js scripts/app.js -->
     <script type="text/javascript" src="../bower_components/vue/dist/vue.min.js"></script>
     <script type="text/javascript" src="../bower_components/vue-resource/dist/vue-resource.min.js"></script>
