@@ -1,5 +1,3 @@
-var loc;
-
 function findPlacesSuccessHandler(results, status, pagination){
     if (status === google.maps.places.PlacesServiceStatus.OK) {
         results.forEach(function(current_element){
@@ -13,17 +11,6 @@ function findPlacesSuccessHandler(results, status, pagination){
         pagination.nextPage();
     }
 }
-function searchLocation(){
-    var address = document.getElementById("txtAddress").value;
-    geocoder = new google.maps.Geocoder();
-    geocoder.geocode( { 'address': address}, function(results, status) {
-        if (status == 'OK') {
-            map.changeLocation(results[0].geometry.location.lat(),results[0].geometry.location.lng())
-        } else {
-            alert('Unable to determine location. ' + status);
-        }
-    });
-}
 
 function createMarker(place) {
     return new google.maps.Marker({
@@ -31,6 +18,7 @@ function createMarker(place) {
         position: place.geometry.location
     });
 }
+
 function removeMarker(id){
     locations.places.forEach(function(current_element, current_index){
         if(current_element.Place.id == id){
@@ -39,23 +27,6 @@ function removeMarker(id){
             return;
         }
     })
-}
-function useGeolocation(position){
-    map.changeLocation(position.coords.latitude,position.coords.longitude)
-}
-
-function locationErrorHandler(error){
-    switch(error.code){
-        case 1:
-            alert("Not permitted to access location data");
-            break;
-        case 2:
-            alert("Unable to determine location");
-            break;
-        case 3:
-            alert("Location data timeout");
-            break;
-    }
 }
 
 function startSharedSession(){
@@ -88,7 +59,7 @@ window.onload = function(){
         },
         methods: {
             changeRadius: function(){
-                map.changeLocation(loc.lat,loc.lng);
+                map.findPlaces();
             }
         }
     });
@@ -113,6 +84,9 @@ window.onload = function(){
                 locations.places = [];
 
                 //Find places
+                this.findPlaces();
+            },
+            findPlaces: function(){
                 var service = new google.maps.places.PlacesService(map.gmap);
                 service.nearbySearch({
                     location: this.location,
@@ -123,8 +97,44 @@ window.onload = function(){
         }
     });
 
-    // Initialize map
-    map.gmap = new google.maps.Map(document.getElementById('map'), { center: {lat: 0, lng: 0}, zoom: 15 })
+    newLocation = new Vue({
+        el: '#txtNewLocation',
+        data: {
+            newLocation: ""
+        },
+        methods: {
+            searchLocation: function(newLocation){
+                geocoder = new google.maps.Geocoder();
+                geocoder.geocode( { 'address': newLocation}, function(results, status) {
+                    if (status == 'OK') {
+                        map.changeLocation(results[0].geometry.location.lat(),results[0].geometry.location.lng())
+                    } else {
+                        alert('Unable to determine location. ' + status);
+                    }
+                });
+            }
+        }
+    });
 
-    navigator.geolocation.getCurrentPosition(useGeolocation, locationErrorHandler);
+    // Initialize map
+    map.gmap = new google.maps.Map(document.getElementById('map'), { center: map.location, zoom: 15 })
+
+    navigator.geolocation.getCurrentPosition(
+        function(position){
+            //Success
+            map.changeLocation(position.coords.latitude,position.coords.longitude);
+        }, function(error){
+            // Error
+            switch(error.code){
+                case 1:
+                    alert("Not permitted to access location data");
+                    break;
+                case 2:
+                    alert("Unable to determine location");
+                    break;
+                case 3:
+                    alert("Location data timeout");
+                    break;
+            }
+        });
 }
