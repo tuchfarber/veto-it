@@ -146,6 +146,11 @@ window.onload = function(){
             deletedIds: [],
             gpsLocation: {lat: 0, lng: 0},
             km: 1000
+        },
+        methods:{
+            getData: function(){
+
+            }
         }
     });
 
