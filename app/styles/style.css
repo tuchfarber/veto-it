@@ -19,38 +19,43 @@ body>div{
 }
 @media (min-width: 951px){
     .left-nav{
-        width:30%;
+        width:400px;
     }
     #map{
         display:inline-block;
-        width: 70%;
+        width: calc(100% - 400px);
     }
 }
 .address-input-wrap{
     background-color: #2979ff;
     padding: 8px 0;
     text-align: center;
+    display:flex;
+    justify-content: space-around;
+    align-items:center;
 }
-    .address-input-wrap > *{
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        height: 40px;
-        box-sizing: border-box;
-        width: 20%;
-        margin: 3px;
-        cursor: pointer;
-    }
-    .address-input-wrap > input[type="text"]{
-        width: 50%;
-        cursor: text;
-    }
-    .address-input-wrap > img{
-        width: 40px;
-        height: 40px;
-        box-shadow: none;
-        vertical-align: bottom;
-    }
+.address-input-wrap > *{
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    height: 40px;
+    box-sizing: border-box;
+    width: 20%;
+    margin: 3px;
+    cursor: pointer;
+    border: 0;
+}
+.address-input-wrap > input[type="text"]{
+    width: 250px;
+    cursor: text;
+    padding-left:10px;
+}
+.address-input-wrap > img{
+    width: 40px;
+    height: 40px;
+    box-shadow: none;
+    vertical-align: bottom;
+}
 .location-list{
-    height: calc(100% - 56px);
+    height: calc(100% - 64px);
     overflow-y:scroll;
 }
 .restaurant-tile{
@@ -80,24 +85,23 @@ body>div{
     font-style: italic;
 }
 .veto-button{
-    float: left;
     display: inline-block;
     width: 30%;
 }
-    .veto-button button{
-        float: right;
-        background-color: #ff4429;
-        color: white;
-        font-weight: bold;
-        border-radius: 2px;
-        border: none;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        font-size: large;
-        padding: 10px;
-        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-    }
-    .veto-button button:hover{
-        background-color: #e53d24;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-        cursor: pointer;
-    }
+.veto-button button{
+    float: right;
+    background-color: #ff4429;
+    color: white;
+    font-weight: bold;
+    border-radius: 2px;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    font-size: large;
+    padding: 10px;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+.veto-button button:hover{
+    background-color: #e53d24;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    cursor: pointer;
+}
