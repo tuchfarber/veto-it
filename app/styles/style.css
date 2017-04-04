@@ -5,6 +5,9 @@ html, body {
     font-family: sans-serif;
     color: #4c4c4c;
 }
+body.notified{
+    height: calc(100% - 30px);
+}
 body>div{
     float:left;
     height:100%;
@@ -34,7 +37,7 @@ body>div{
     justify-content: space-around;
     align-items:center;
 }
-.address-input-wrap > *{
+.address-input-wrap > *:not(span){
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     height: 40px;
     box-sizing: border-box;
@@ -42,6 +45,10 @@ body>div{
     margin: 3px;
     cursor: pointer;
     border: 0;
+}
+.address-input-wrap > span > img{
+    height: 40px;
+    cursor: pointer;
 }
 .address-input-wrap > input[type="text"]{
     width: 250px;
@@ -64,9 +71,9 @@ body>div{
     border-bottom: 1px solid lightgray;
     width: 100%;
 }
-    .restaurant-tile > div{
-        padding: 0 5%;
-    }
+.restaurant-tile > div{
+    padding: 0 5%;
+}
 .restaurant-info{
     float: left;
     display: inline-block;
@@ -108,4 +115,18 @@ body>div{
 #progress{
     background-color:#e53d24;
     height:3px;
+}
+.notification{
+    transition: height .3s;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width:100%;
+    background-color:#eeeeee;
+}
+.notification.hidden{
+    height:0px;
+}
+.notification.shown{
+    height:30px;
 }

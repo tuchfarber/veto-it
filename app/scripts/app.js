@@ -135,14 +135,13 @@ window.onload = function(){
 
     shareButton = new Vue({
         el: "#imgShareSession",
+        data:{
+            shared: false
+        },
         methods: {
             shareSession: function(){
-                document.getElementById("txtNewLocation").disabled = true;
-                document.getElementById("ddlDistance").disabled = true;
-                if(sharedSession.sharedSession){
-                    alert("Shared URL: " + window.location);
-                    return;
-                }
+                this.copyToClipboard('share_url');
+                sharedSession.transitionToShared();
                 var session_data = {
                     "gps": map.gmap.center.lat() + ',' + map.gmap.center.lng(),
                     "init_km": selectedDistance.selected,
@@ -152,7 +151,7 @@ window.onload = function(){
                     function(response){
                         var share_url = window.location + '#' + response.data.d_id + '/' + response.data.d_key;
                         window.location.hash = response.data.d_id + '/' + response.data.d_key;
-                        alert(share_url);
+                        notification.notify("New session created! Copy link to share.");
                         window.setInterval(sharedSession.getData,1000);
                     },
                     function(reponse){
@@ -160,6 +159,22 @@ window.onload = function(){
                         console.log(response);
                     }
                 );
+            },
+            copyToClipboard: function(){
+                var share_url = window.location.href;
+                var textArea = document.createElement("textarea");
+                textArea.value = share_url;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    var successful = document.execCommand('copy');
+                    if(successful){
+                        notification.notify("Copied link to clipboard!");
+                    }
+                } catch (err) {
+                    console.log('Oops, unable to copy');
+                }
+                document.body.removeChild(textArea);
             }
         }
     });
@@ -197,6 +212,11 @@ window.onload = function(){
             },
             findUnique : function(value, index, self) { 
                 return self.indexOf(value) === index;
+            },
+            transitionToShared: function(){
+                document.getElementById("txtNewLocation").disabled = true;
+                document.getElementById("ddlDistance").disabled = true;
+                shareButton.shared = true;
             }
         },
         watch:{
@@ -207,6 +227,22 @@ window.onload = function(){
             }
         }
     });
+    
+    var notification = new Vue({
+        el: "#notification",
+        data:{
+            notification:"",
+            displayed:"hidden"
+        },
+        methods:{
+            notify: function(message){
+                this.notification = message;
+                document.body.className = "notified";
+                this.displayed = "shown";
+                setTimeout(function(){notification.displayed = "hidden"; document.body.className = "";}, 2000)
+            }
+        }
+    })
 
     window.addEventListener("hashchange", function(hash){
         sharedSession.sharedSession = window.location.hash.substring(1) !== "" ? true : false;
@@ -215,9 +251,8 @@ window.onload = function(){
     });
 
     if(sharedSession.sharedSession){
-        document.getElementById("txtNewLocation").disabled = true;
-        document.getElementById("ddlDistance").disabled = true;
-        sharedSession.getData()
+        sharedSession.transitionToShared();
+        sharedSession.getData();
         window.setInterval(sharedSession.getData,1000);
 
     }else{

@@ -10,13 +10,17 @@
         <!-- endbuild -->
     </head>
     <body>
+        <div id="notification" class="notification" :class="displayed">{{notification}}</div>
         <div class="left-nav">
             <div class="address-input-wrap" id="divSessionInput">
                 <input v-model="newLocation" id="txtNewLocation" type="text" placeholder="New Location..." v-on:keyup.enter="searchLocation(newLocation)">
                 <select id="ddlDistance" v-model="selected" v-on:change="changeRadius">
                     <option v-for="option in options" :value="option.value">{{option.text}}</option>
                 </select>
-                <img src="images/share.png" id="imgShareSession" v-on:click="shareSession" title="Share Session">
+                <span id="imgShareSession">
+                    <img src="images/share.png" v-on:click="shareSession" v-if="!shared" title="Share Session">
+                    <img src="images/clipboard.svg" v-on:click="copyToClipboard" v-if="shared" title="Copy to clipboard">
+                </span>
             </div>
             <div class="location-list" id="locations">
                 <div v-if="progresswidth != 100" id="progress" :style="'width: ' + progresswidth + '%;'"></div>
