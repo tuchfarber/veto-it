@@ -2,7 +2,8 @@ window.onload = function(){
     locations = new Vue({
         el: '#locations',
         data: {
-            places: []
+            places: [],
+            progresswidth: 0
         },
         methods:{
             createMarker: function(place){
@@ -80,6 +81,7 @@ window.onload = function(){
                 this.findPlaces();
             },
             findPlaces: function(){
+                locations.progresswidth = 0;
                 var service = new google.maps.places.PlacesService(map.gmap);
                 locations.places = [];
                 service.nearbySearch({
@@ -98,7 +100,10 @@ window.onload = function(){
                         })
                     }
                     if(pagination.hasNextPage){
+                        locations.progresswidth += 33;
                         pagination.nextPage();
+                    }else{
+                        locations.progresswidth = 100;
                     }
                 });
             },
