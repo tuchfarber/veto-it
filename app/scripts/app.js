@@ -132,6 +132,8 @@ window.onload = function(){
         el: "#imgShareSession",
         methods: {
             shareSession: function(){
+                document.getElementById("txtNewLocation").disabled = true;
+                document.getElementById("ddlDistance").disabled = true;
                 if(sharedSession.sharedSession){
                     alert("Shared URL: " + window.location);
                     return;
@@ -208,8 +210,11 @@ window.onload = function(){
     });
 
     if(sharedSession.sharedSession){
+        document.getElementById("txtNewLocation").disabled = true;
+        document.getElementById("ddlDistance").disabled = true;
         sharedSession.getData()
         window.setInterval(sharedSession.getData,1000);
+
     }else{
         navigator.geolocation.getCurrentPosition(
             function(position){
