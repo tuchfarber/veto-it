@@ -161,9 +161,7 @@ window.onload = function(){
             sharedSession: window.location.hash.substring(1) !== "" ? true : false,
             sessionId: window.location.hash.substring(1, window.location.hash.indexOf('/')),
             sessionKey: window.location.hash.substring(window.location.hash.indexOf('/') + 1),
-            deletedIds: [],
-            gpsLocation: {lat: 0, lng: 0},
-            km: 1000
+            deletedIds: []
         },
         methods:{
             getData: function(){
@@ -174,8 +172,10 @@ window.onload = function(){
                             console.log(response)
                             selectedDistance.selected = response.data.init_km;
                             sharedSession.deletedIds = sharedSession.deletedIds.concat(response.data.del_ids).filter(this.findUnique)
-                            var gps = response.data.gps.split(',');
-                            map.changeLocation(parseFloat(gps[0]),parseFloat(gps[1]));
+                            if(map.location.lat + ',' + map.location.lng != response.data.gps){
+                                var gps = response.data.gps.split(',');
+                                map.changeLocation(parseFloat(gps[0]),parseFloat(gps[1]));
+                            }
                         }else{
                             console.log("Retrieval error: " + response.status_text);
                             return;
@@ -206,6 +206,7 @@ window.onload = function(){
     });
     if(sharedSession.sharedSession){
         sharedSession.getData()
+        window.setInterval(sharedSession.getData,1000);
     }else{
         navigator.geolocation.getCurrentPosition(
             function(position){
