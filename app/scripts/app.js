@@ -199,11 +199,13 @@ window.onload = function(){
             }
         }
     });
+
     window.addEventListener("hashchange", function(hash){
         sharedSession.sharedSession = window.location.hash.substring(1) !== "" ? true : false;
         sharedSession.sessionId = window.location.hash.substring(1,window.location.hash.indexOf('/'))
         sharedSession.sessionKey = window.location.hash.substring(window.location.hash.indexOf('/') + 1)
     });
+
     if(sharedSession.sharedSession){
         sharedSession.getData()
         window.setInterval(sharedSession.getData,1000);
@@ -228,5 +230,6 @@ window.onload = function(){
             }
         );
     }
+    
     map.initializeMap();
 }
