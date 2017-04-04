@@ -146,6 +146,7 @@ window.onload = function(){
                         var share_url = window.location + '#' + response.data.d_id + '/' + response.data.d_key;
                         window.location.hash = response.data.d_id + '/' + response.data.d_key;
                         alert(share_url);
+                        window.setInterval(sharedSession.getData,1000);
                     },
                     function(reponse){
                         console.log("Error");
@@ -230,6 +231,6 @@ window.onload = function(){
             }
         );
     }
-    
+
     map.initializeMap();
 }
