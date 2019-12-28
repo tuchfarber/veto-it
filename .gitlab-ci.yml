@@ -6,23 +6,15 @@ before_script:
   stage: build
   services:
     - docker:19.03.1-dind
-  variables:
-    DOCKER_HOST: tcp://docker:2376
-    DOCKER_TLS_CERTDIR: "/certs"
-    REPO: "tuchfarber/veto-it"
-    IMAGE_NAME: ""
-    IMAGE_TAG: ""
-    DOCKER_FILE: ""
 
   only:
     - tags
   except:
     - branches
   script:
-    - echo "Repo $REPO"
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $CI_REGISTRY/$REPO/$IMAGE_NAME:$IMAGE_TAG -f $DOCKER_FILE .
-    - docker push $CI_REGISTRY/$REPO/$IMAGE_NAME:$IMAGE_TAG
+    - docker build -t $CI_REGISTRY/tuchfarber/veto-it/$IMAGE_NAME:$IMAGE_TAG -f $DOCKER_FILE .
+    - docker push $CI_REGISTRY/tuchfarber/veto-it/$IMAGE_NAME:$IMAGE_TAG
 
 build_server:
   <<: *build-template
