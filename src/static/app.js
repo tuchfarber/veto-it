@@ -24,7 +24,7 @@ window.onload = function() {
                 });
                 if (changed) {
                     sharedSession.deletedIds = sharedSession.deletedIds.concat([id]).filter(sharedSession.findUnique)
-                    var veto_url = 'https://api.tuchfarber.com/vetoit/veto/' + sharedSession.sessionId + '/' + sharedSession.sessionKey;
+                    var veto_url = 'https://api.tuchfarber.com/veto/' + sharedSession.sessionId + '/' + sharedSession.sessionKey;
                     var session_data = { "del_ids": sharedSession.deletedIds }
                     this.$http.post(veto_url, session_data).then(
                         function(response) {},
@@ -148,7 +148,7 @@ window.onload = function() {
                     "init_km": selectedDistance.selected,
                     "del_ids": sharedSession.deletedIds
                 };
-                this.$http.post('https://api.tuchfarber.com/vetoit/create', session_data).then(
+                this.$http.post('https://api.tuchfarber.com/create', session_data).then(
                     function(response) {
                         var share_url = window.location + '#' + response.data.d_id + '/' + response.data.d_key;
                         window.location.hash = response.data.d_id + '/' + response.data.d_key;
@@ -189,7 +189,7 @@ window.onload = function() {
         },
         methods: {
             getData: function() {
-                var retrieve_url = 'https://api.tuchfarber.com/vetoit/retrieve/' + sharedSession.sessionId + '/' + sharedSession.sessionKey;
+                var retrieve_url = 'https://api.tuchfarber.com/retrieve/' + sharedSession.sessionId + '/' + sharedSession.sessionKey;
                 this.$http.get(retrieve_url).then(
                     function(response) {
                         if (response.body.status != "Error") {

@@ -4,7 +4,7 @@
         <title>Veto It</title>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
-        <link rel="stylesheet" href="styles/style.css" />
+        <link rel="stylesheet" href="style.css" />
     </head>
     <body>
         <div id="notification" class="notification" :class="displayed">{{notification}}</div>
@@ -15,8 +15,8 @@
                     <option v-for="option in options" :value="option.value">{{option.text}}</option>
                 </select>
                 <span id="imgShareSession">
-                    <img src="images/share.png" v-on:click="shareSession" v-if="!shared" title="Share Session" height="40" width="40">
-                    <img src="images/clipboard.png" v-on:click="copyToClipboard" v-if="shared" title="Copy to clipboard" height="40" width="40">
+                    <img src="assets/share.png" v-on:click="shareSession" v-if="!shared" title="Share Session" height="40" width="40">
+                    <img src="assets/clipboard.png" v-on:click="copyToClipboard" v-if="shared" title="Copy to clipboard" height="40" width="40">
                 </span>
             </div>
             <div class="location-list" id="locations">
@@ -43,5 +43,5 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnYOOawvOCQTBXyzow1M8fdgekFAS-9aA&libraries=places"></script>
     <script type="text/javascript" src="https://unpkg.com/vue@2.5.16/dist/vue.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/vue-resource@1.5.0/dist/vue-resource.min.js"></script>
-    <script type="text/javascript" src="scripts/app.js"></script>
+    <script type="text/javascript" src="app.js"></script>
 </html>
