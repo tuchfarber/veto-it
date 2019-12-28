@@ -2,7 +2,10 @@ before_script:
   - docker info
 
 build_image:
-  image: docker:19.03.1
+  image: $CI_REGISTRY/group/project/docker:19.03.1
+  services:
+    - name: $CI_REGISTRY/group/project/docker:19.03.1-dind
+      alias: docker
   only:
     - tags
   except:
