@@ -2,6 +2,11 @@ before_script:
   - docker info
 
 build_image:
+  image: docker:19.03.1
+  only:
+    - tags
+  except:
+    - branches
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t tuchfarber/veto-it:0.1 .
