@@ -9,22 +9,24 @@ before_script:
   variables:
     DOCKER_HOST: tcp://docker:2376
     DOCKER_TLS_CERTDIR: "/certs"
+    REPO_NAME: "tuchfarber/veto-it"
     IMAGE_NAME: ""
     IMAGE_TAG: ""
     DOCKER_FILE: ""
+
   only:
     - tags
   except:
     - branches
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $CI_REGISTRY/$IMAGE_NAME:$IMAGE_TAG -f $DOCKER_FILE .
-    - docker push $CI_REGISTRY/$IMAGE_NAME:$IMAGE_TAG
+    - docker build -t $CI_REGISTRY/$REPO_NAME/$IMAGE_NAME:$IMAGE_TAG -f $DOCKER_FILE .
+    - docker push $CI_REGISTRY/$REPO_NAME/$IMAGE_NAME:$IMAGE_TAG
 
 build_server:
   <<: *build-template
   variables:
-    IMAGE_NAME: "tuchfarber/vetoit-server"
+    IMAGE_NAME: "vetoit-server"
     IMAGE_TAG: "0.1"
     DOCKER_FILE: "Dockerfile-server"
 
