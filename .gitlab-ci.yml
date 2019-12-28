@@ -33,6 +33,6 @@ build_server:
 build_client:
   <<: *build-template
   variables:
-    IMAGE_NAME: "tuchfarber/vetoit-client"
+    IMAGE_NAME: "vetoit-client"
     IMAGE_TAG: "0.1"
     DOCKER_FILE: "Dockerfile-client"
