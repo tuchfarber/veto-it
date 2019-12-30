@@ -2,7 +2,6 @@ import os
 import time
 import uuid
 
-import couchdb
 from flask import Flask, jsonify, request
 
 app = Flask(__name__)
@@ -10,33 +9,25 @@ app = Flask(__name__)
 db_username = os.environ.get("COUCHDB_USER")
 db_password = os.environ.get("COUCHDB_PASSWORD")
 
-couch = couchdb.Server(f"https://{db_username}:{db_password}@localhost:5984")
+class LocalCouchDB:
+    def __init__(self):
+        self.data = {}
 
-if 'vetoit' in couch:
-    db = couch['vetoit']
-else:
-    db = couch.create('vetoit')
+    def save(self, datum):
+        key = str(uuid.uuid4())
+        self.data[key] = datum
+        return (key, None)
 
+    def __contains__(self, key):
+        return key in self.data.keys()
 
-# class LocalCouchDB:
-#     def __init__(self):
-#         self.data = {}
+    def __getitem__(self, key):
+        return self.data.get(key)
 
-#     def save(self, datum):
-#         key = str(uuid.uuid4())
-#         self.data[key] = datum
-#         return (key, None)
+    def delete(self, key):
+        del self.data[key]
 
-#     def __contains__(self, key):
-#         return key in self.data.keys()
-
-#     def __getitem__(self, key):
-#         return self.data.get(key)
-
-#     def delete(self, key):
-#         del self.data[key]
-
-# db = LocalCouchDB()
+db = LocalCouchDB()
 
 @app.route("/create", methods=["POST"])
 def create():
@@ -50,7 +41,6 @@ def create():
         "expires": int(time.time()) + 3600,
     }
     (d_id, _) = db.save(data)
-    print(db.data)
     return jsonify({"d_id": d_id, "d_key": d_key})
 
 
