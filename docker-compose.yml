@@ -1,0 +1,23 @@
+version: '3.0'
+services:
+  router:
+    build:
+      context: .
+      dockerfile: Dockerfile-router
+    container_name: vetoit.router
+    ports:
+      - "80:80"
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile-client
+    container_name: vetoit.client
+    ports:
+      - "8081:80"
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile-server
+    container_name: vetoit.server
+    ports:
+      - "8080:8080"

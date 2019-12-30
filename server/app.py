@@ -1,39 +1,42 @@
-# import couchdb
-from flask import Flask, jsonify, request
-import uuid
+import os
 import time
+import uuid
+
+import couchdb
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-# couch = couchdb.Server("http://couchdb_01:5984")
+db_username = os.environ.get("COUCHDB_USER")
+db_password = os.environ.get("COUCHDB_PASSWORD")
 
-# if 'vetoit' in couch:
-#     db = couch['vetoit']
-# else:
-#     db = couch.create('vetoit')
+couch = couchdb.Server(f"https://{db_username}:{db_password}@localhost:5984")
 
-
-class LocalCouchDB:
-    def __init__(self):
-        self.data = {}
-
-    def save(self, datum):
-        key = uuid.uuid4()
-        self.data[key] = datum
-        return (key, None)
-
-    def __contains__(self, key):
-        return key in self.data.keys()
-
-    def __getitem__(self, key):
-        return self.data.get(key)
-
-    def delete(self, key):
-        del self.data[key]
+if 'vetoit' in couch:
+    db = couch['vetoit']
+else:
+    db = couch.create('vetoit')
 
 
-db = LocalCouchDB()
+# class LocalCouchDB:
+#     def __init__(self):
+#         self.data = {}
 
+#     def save(self, datum):
+#         key = str(uuid.uuid4())
+#         self.data[key] = datum
+#         return (key, None)
+
+#     def __contains__(self, key):
+#         return key in self.data.keys()
+
+#     def __getitem__(self, key):
+#         return self.data.get(key)
+
+#     def delete(self, key):
+#         del self.data[key]
+
+# db = LocalCouchDB()
 
 @app.route("/create", methods=["POST"])
 def create():
@@ -47,6 +50,7 @@ def create():
         "expires": int(time.time()) + 3600,
     }
     (d_id, _) = db.save(data)
+    print(db.data)
     return jsonify({"d_id": d_id, "d_key": d_key})
 
 
